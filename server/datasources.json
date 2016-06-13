@@ -1,10 +1,9 @@
 {
   "db": {
-    "password": "",
+    "host": "127.0.0.1",
+    "port": "27017",
+    "database": "crsdb",
     "name": "db",
-    "host":"127.0.0.1",
-    "port":"27017",
-    "database":"",
     "connector": "mongodb",
     "user": ""
   }

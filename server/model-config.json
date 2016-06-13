@@ -30,6 +30,18 @@
   },
   "Role": {
     "dataSource": "db",
-    "public": false
+    "public": true
+  },
+  "Car": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Customer": {
+    "dataSource": "db",
+    "public": true
+  },
+  "rent": {
+    "dataSource": "db",
+    "public": true
   }
 }
