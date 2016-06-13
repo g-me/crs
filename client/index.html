@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle Rental</title>
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/fa/css/font-awesome.css">
+    <link rel="stylesheet" href="vendor/AdminLTE.min.css">
+</head>
+<body  class="hold-transition skin-blue layout-top-nav">
+
+ <div id="app" class="wrapper" >
+
+     <app-header></app-header>
+
+     <div class="col-sm-10 col-lg-offset-1" style="background-color: rgba(85, 129, 183, 0.13);" >
+       <section class="content">
+             <div class="row">
+                <cars :list="cars"></cars>
+                <customers :list="customers"></customers>
+            </div>
+           <div class="row">
+             <renting :list="rantings"></renting>
+           </div>
+       </section>
+
+     </div>
+
+    <app-footer></app-footer>
+
+
+    <template id="cars_template">
+      <!--vehicles-->
+      <div class="col-md-6">
+        <!-- USERS LIST -->
+        <div class="box box-danger">
+          <div class="box-header with-border">
+            <h3 class="box-title">Vehicles</h3>
+
+            <div class="box-tools pull-right">
+              <span class="label label-danger">8 Vehicles</span>
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body no-padding">
+            <ul class="users-list clearfix">
+              <li>
+                <img src="assets/car1.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Alexander Pierce</a>
+                <span class="users-list-date">Today</span>
+              </li>
+              <li>
+                <img src="assets/car2.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Norman</a>
+                <span class="users-list-date">Yesterday</span>
+              </li>
+              <li>
+                <img src="assets/car3.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Jane</a>
+                <span class="users-list-date">12 Jan</span>
+              </li>
+              <li>
+                <img src="assets/car9.jpg" alt="User Image">
+                <a class="users-list-name" href="#">John</a>
+                <span class="users-list-date">12 Jan</span>
+              </li>
+              <li>
+                <img src="assets/car5.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Alexander</a>
+                <span class="users-list-date">13 Jan</span>
+              </li>
+              <li>
+                <img src="assets/car6.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Sarah</a>
+                <span class="users-list-date">14 Jan</span>
+              </li>
+              <li>
+                <img src="assets/car7.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Nora</a>
+                <span class="users-list-date">15 Jan</span>
+              </li>
+              <li>
+                <img src="assets/car8.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Nadia</a>
+                <span class="users-list-date">15 Jan</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="box-footer clearfix">
+            <!-- NEW VEHICLE MODAL-->
+            <div id="new_vehicle" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                   <div class="modal-content">
+                      <div class="modal-body">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                            <h3 class="box-title">New Vehicle</h3>
+                            </div>
+                          <form class="form-horizontal" >
+                              <div class="box-body">
+                                <div class="form-group">
+                                  <label for="brand" class="col-sm-2 control-label">Brand </label>
+
+                                  <div class="col-sm-10">
+                                    <input type="brand" name='brand' class="form-control" id="brand" placeholder="Brand">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="paletNum" class="col-sm-2 control-label">Palate Number</label>
+                                  <div class="col-sm-10">
+                                    <input type="text" name='paletNum' class="form-control" id="paletNum" placeholder="Palate Number">
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- /.box-body -->
+                              <div class="box-footer">
+                                <button type="submit" class="btn btn-default">Cancel</button>
+                                <button type="submit" class="btn btn-info pull-right" @click='createCar()'>Add</button>
+                              </div>
+                         </form>
+                       </div>
+                      </div>
+                   </div>
+                </div>
+            </div>
+            <!-- END NEW VEHICLE MODAL-->
+
+            <a href="#" data-toggle="modal" data-target="#new_vehicle" class="btn btn-sm btn-info btn-flat pull-left"> New Vehicle</a>
+            <a href="#" class="btn btn-sm btn-default btn-flat pull-right">View All Vehicles</a>
+          </div>
+        </div>
+      </div>
+      <!--end vehicles-->
+    </template>
+
+    <template id="customers_template">
+
+                   <!--cusromers-->
+                   <div class="col-md-6">
+                     <!-- USERS LIST -->
+                     <div class="box box-danger">
+                       <div class="box-header with-border">
+                         <h3 class="box-title">Customers</h3>
+
+                         <div class="box-tools pull-right">
+                           <span class="label label-danger">8 Customers</span>
+                           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                           </button>
+                           <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                           </button>
+                         </div>
+                       </div>
+                       <!-- /.box-header -->
+                       <div class="box-body no-padding">
+                         <ul class="users-list clearfix">
+                           <li>
+                             <img src="assets/user1-128x128.jpg" alt="User Image">
+                             <a class="users-list-name" href="#">Alexander Pierce</a>
+                             <span class="users-list-date">Today</span>
+                           </li>
+                           <li>
+                             <img src="assets/user8-128x128.jpg" alt="User Image">
+                             <a class="users-list-name" href="#">Norman</a>
+                             <span class="users-list-date">Yesterday</span>
+                           </li>
+                           <li>
+                             <img src="assets/user7-128x128.jpg" alt="User Image">
+                             <a class="users-list-name" href="#">Jane</a>
+                             <span class="users-list-date">12 Jan</span>
+                           </li>
+                           <li>
+                             <img src="assets/user6-128x128.jpg" alt="User Image">
+                             <a class="users-list-name" href="#">John</a>
+                             <span class="users-list-date">12 Jan</span>
+                           </li>
+                           <li>
+                             <img src="assets/user2-160x160.jpg" alt="User Image">
+                             <a class="users-list-name" href="#">Alexander</a>
+                             <span class="users-list-date">13 Jan</span>
+                           </li>
+                           <li>
+                             <img src="assets/user5-128x128.jpg" alt="User Image">
+                             <a class="users-list-name" href="#">Sarah</a>
+                             <span class="users-list-date">14 Jan</span>
+                           </li>
+                           <li>
+                             <img src="assets/user4-128x128.jpg" alt="User Image">
+                             <a class="users-list-name" href="#">Nora</a>
+                             <span class="users-list-date">15 Jan</span>
+                           </li>
+                           <li>
+                             <img src="assets/user3-128x128.jpg" alt="User Image">
+                             <a class="users-list-name" href="#">Nadia</a>
+                             <span class="users-list-date">15 Jan</span>
+                           </li>
+                         </ul>
+                         <!-- /.users-list -->
+                       </div>
+
+
+                       <!-- NEW CUSTOMER MODAL-->
+                       <div id="new_customer" class="modal fade" role="dialog">
+                           <div class="modal-dialog">
+                              <div class="modal-content">
+                                 <div class="modal-body">
+                                     <div class="box box-info">
+                                         <div class="box-header with-border">
+                                         <h3 class="box-title">New Cutomer</h3>
+                                         </div>
+                                       <form class="form-horizontal">
+                                           <div class="box-body">
+                                             <div class="form-group">
+                                               <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+
+                                               <div class="col-sm-10">
+                                                 <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                                               </div>
+                                             </div>
+                                             <div class="form-group">
+                                               <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                                               <div class="col-sm-10">
+                                                 <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                               </div>
+                                             </div>
+                                           </div>
+                                           <!-- /.box-body -->
+                                           <div class="box-footer">
+                                             <button type="submit" class="btn btn-default">Cancel</button>
+                                             <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                                           </div>
+                                      </form>
+                                    </div>
+                               </div>
+                              </div>
+                           </div>
+                       </div>
+                       <!-- END NEW CUSTOMER MODAL-->
+
+                       <div class="box-footer clearfix">
+                         <a href="#" data-toggle="modal" data-target="#new_customer" class="btn btn-sm btn-info btn-flat pull-left"> New Customer</a>
+                         <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Customers</a>
+                       </div>
+                       <!-- /.box-footer -->
+                     </div>
+                   </div>
+                   <!--end customers -->
+    </template>
+
+    <template id='rentings_template'>
+      <!-- TABLE: LATEST rentals -->
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Latest Rentings</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table no-margin">
+              <thead>
+              <tr>
+                <th>Renting ID</th>
+                <th>Customer Name</th>
+                <th>Vehicle Id</th>
+                <th>Status</th>
+                <th>Rental Date</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                <td>Call of Duty IV</td>
+                <td>ToyotaE120</td>
+                <td><span class="label label-success">Shipped</span></td>
+                <td>
+                  <div class="sparkbar" data-color="#00a65a" data-height="20">Jun 12,2016</div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                <td>Samsung Smart TV</td>
+                <td>ToyotaE120</td>
+                <td><span class="label label-warning">Pending</span></td>
+                <td>
+                  <div class="sparkbar" data-color="#f39c12" data-height="20">Jun 12,2016</div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                <td>iPhone 6 Plus</td>
+                <td>ToyotaE120</td>
+
+                <td><span class="label label-danger">Delivered</span></td>
+                <td>
+                  <div class="sparkbar" data-color="#f56954" data-height="20">Mar 02,2016</div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                <td>Samsung Smart TV</td>
+                <td>ToyotaE120</td>
+                <td><span class="label label-info">Processing</span></td>
+                <td>
+                  <div class="sparkbar" data-color="#00c0ef" data-height="20">Mar 02,2016</div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                <td>Samsung Smart TV</td>
+                <td>ToyotaE120</td>
+
+                <td><span class="label label-warning">Pending</span></td>
+                <td>
+                  <div class="sparkbar" data-color="#f39c12" data-height="20">Mar 02,2016</div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                <td>iPhone 6 Plus</td>
+                <td>ToyotaE120</td>
+                <td><span class="label label-danger">Delivered</span></td>
+                <td>
+                  <div class="sparkbar" data-color="#f56954" data-height="20">Mar 02,2016</div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                <td>Call of Duty IV</td>
+                <td>ToyotaE120</td>
+                <td><span class="label label-success">Shipped</span></td>
+                <td>
+                  <div class="sparkbar" data-color="#00a65a" data-height="20">Mar 02,2016</div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="box-footer clearfix">
+          <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
+          <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+        </div>
+      </div>
+    </template>
+
+    <template id='header_template'>
+      <header class="main-header">
+        <nav class="navbar navbar-static-top">
+          <div class="container">
+            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+              <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+                </div>
+              </form>
+            </div>
+            <div class="navbar-custom-menu">
+              <ul class="nav navbar-nav">
+                <!-- User Account Menu -->
+                <account></account>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </template>
+
+    <template id='footer_template'>
+      <footer class="col-sm-12" style="height:45px;margin-top: 25px;" >
+        <div class="container">
+          <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.0   </div>
+          <strong>Copyright &copy; 2016 <a href="http://twitter.com/mehariGt">me</a>.</strong> All rights reserved.
+        </div>
+      </footer>
+    </template>
+
+   <template id="account_template">
+     <li class="dropdown user user-menu">
+       <!-- Menu Toggle Button -->
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+         <!-- The user image in the navbar-->
+         <img src="assets/avatar.png" class="user-image" alt="User Image">
+         <!-- hidden-xs hides the username on small devices so only the image appears. -->
+         <span class="hidden-xs">Abebe Kebede</span>
+       </a>
+       <ul class="dropdown-menu">
+         <!-- The user image in the menu -->
+         <li class="user-header">
+           <img src="assets/avatar.png" class="img-circle" alt="User Image">
+           <p style="color: #000;">
+              Abebe Kebede - Developer
+             <small>Member since Nov. 2012</small>
+           </p>
+         </li>
+         <li class="user-footer">
+           <div class="pull-right">
+             <a href="#"  v-on:click="logout()" class="btn btn-default btn-flat">Sign out</a>
+           </div>
+         </li>
+       </ul>
+     </li>
+   </template>
+
+    <script src="vendor/jQuery-2.2.0.min.js"></script>
+    <script src="vendor/js/bootstrap.min.js"></script>
+    <script src="vendor/app.min.js"></script>
+    <script src="vendor/vue.min.js"></script>
+    <script src="vendor/vue-resource.min.js"></script>
+    <script src="app.js"> </script>
+
+  </div>
+</body>
+</html>

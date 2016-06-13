@@ -1,0 +1,30 @@
+{
+  "name": "Car",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "paletNum": {
+      "type": "number",
+      "required": true
+    },
+    "brand": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "rents": {
+      "type": "hasMany",
+      "model": "rent",
+      "foreignKey": "carId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

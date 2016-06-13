@@ -1,0 +1,29 @@
+{
+  "name": "rent",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "customerId": {
+      "type": "string",
+      "required": true
+    },
+    "carId": {
+      "type": "string"
+    },
+    "rentedOn": {
+      "type": "date",
+      "required": true
+    },
+    "returnDate": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

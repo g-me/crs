@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Welcome</title>
+  </head>
+  <body>
+
+    <h1>VehicleRent</h1>
+    <div id="app">
+      <cars :list="cars"></cars>
+      <customers :list="customers"></customers>
+    </div>
+
+
+    <template id="cars_template">
+      <div v-if='list' id='cars_panel'>
+        <h4>Vehicles</h4>
+        <ul v-for='car in list'>
+          <li>
+            {{ car.brand }}
+            <strong @click='deleteCar(car)'>X</strong>
+          </li>
+        </ul>
+        <button @click='createCar()'>New</button>
+      </div>
+      <div v-else>
+        There are No cars!
+      </div>
+    </template>
+
+    <template id="customers_template">
+      <!-- FIXME: this is just testing -->
+      <div v-if='1==1' id="customers_panel">
+        <h4>Customers</h4>
+        <ul v-for="customer in list">
+          <li>{{customer.username }}</li>
+        </ul>
+        <button>New</button>
+      </div>
+      <div v-else>
+        There are no customers!
+      </div>
+    </template>
+
+
+    <script src="vendor/vue.min.js"></script>
+    <script src="vendor/vue-resource.min.js"></script>
+    <script src="app.js"> </script>
+
+  </body>
+</html>
