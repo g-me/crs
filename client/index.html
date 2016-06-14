@@ -1,33 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Vehicle Rental</title>
     <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/fa/css/font-awesome.css">
+    <link rel="stylesheet" href="vendor/blue.css">
     <link rel="stylesheet" href="vendor/AdminLTE.min.css">
+
 </head>
 <body  class="hold-transition skin-blue layout-top-nav">
 
  <div id="app" class="wrapper" >
 
-     <app-header></app-header>
+
+     <app-header v-if="isAuthenticated"></app-header>
 
      <div class="col-sm-10 col-lg-offset-1" style="background-color: rgba(85, 129, 183, 0.13);" >
-       <section class="content">
-             <div class="row">
-                <cars :list="cars"></cars>
-                <customers :list="customers"></customers>
-            </div>
-           <div class="row">
-             <renting :list="rantings"></renting>
-           </div>
-       </section>
+
+       <router-view></router-view>
 
      </div>
 
     <app-footer></app-footer>
 
+
+    <template id="dashboard_template">
+     <section class="content">
+       <div class="row">
+         <cars :list="cars"></cars>
+         <customers :list="customers"></customers>
+       </div>
+       <div class="row">
+         <renting :list="rantings"></renting>
+       </div>
+     </section>
+   </template>
 
     <template id="cars_template">
       <!--vehicles-->
@@ -38,7 +46,7 @@
             <h3 class="box-title">Vehicles</h3>
 
             <div class="box-tools pull-right">
-              <span class="label label-danger">8 Vehicles</span>
+              <span class="label label-danger">5 Vehicles</span>
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
               <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
@@ -47,46 +55,13 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body no-padding">
+
+            <i  v-show="loading" style="font-size:100px" class="fa fa-spinner fa-spin"></i>
             <ul class="users-list clearfix">
-              <li>
-                <img src="assets/car1.jpg" alt="User Image">
-                <a class="users-list-name" href="#">Alexander Pierce</a>
-                <span class="users-list-date">Today</span>
-              </li>
-              <li>
-                <img src="assets/car2.jpg" alt="User Image">
-                <a class="users-list-name" href="#">Norman</a>
-                <span class="users-list-date">Yesterday</span>
-              </li>
-              <li>
-                <img src="assets/car3.jpg" alt="User Image">
-                <a class="users-list-name" href="#">Jane</a>
-                <span class="users-list-date">12 Jan</span>
-              </li>
-              <li>
-                <img src="assets/car9.jpg" alt="User Image">
-                <a class="users-list-name" href="#">John</a>
-                <span class="users-list-date">12 Jan</span>
-              </li>
-              <li>
-                <img src="assets/car5.jpg" alt="User Image">
-                <a class="users-list-name" href="#">Alexander</a>
-                <span class="users-list-date">13 Jan</span>
-              </li>
-              <li>
-                <img src="assets/car6.jpg" alt="User Image">
-                <a class="users-list-name" href="#">Sarah</a>
-                <span class="users-list-date">14 Jan</span>
-              </li>
-              <li>
-                <img src="assets/car7.jpg" alt="User Image">
-                <a class="users-list-name" href="#">Nora</a>
-                <span class="users-list-date">15 Jan</span>
-              </li>
-              <li>
-                <img src="assets/car8.jpg" alt="User Image">
-                <a class="users-list-name" href="#">Nadia</a>
-                <span class="users-list-date">15 Jan</span>
+              <li  v-for="car in list">
+                <img src="{{ car.imageUrl }}" alt="Car Image">
+                <a class="users-list-name" href="#">{{ car.brand }}</a>
+                <span class="users-list-date">{{ car.paletNum}}</span>
               </li>
             </ul>
           </div>
@@ -101,28 +76,34 @@
                             <div class="box-header with-border">
                             <h3 class="box-title">New Vehicle</h3>
                             </div>
-                          <form class="form-horizontal" >
+                          <div class="form-horizontal" action="#" >
                               <div class="box-body">
                                 <div class="form-group">
                                   <label for="brand" class="col-sm-2 control-label">Brand </label>
 
                                   <div class="col-sm-10">
-                                    <input type="brand" name='brand' class="form-control" id="brand" placeholder="Brand">
+                                    <input type="text" name='brand' v-model="car.brand" class="form-control" id="brand" placeholder="Brand">
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label for="paletNum" class="col-sm-2 control-label">Palate Number</label>
                                   <div class="col-sm-10">
-                                    <input type="text" name='paletNum' class="form-control" id="paletNum" placeholder="Palate Number">
+                                    <input type="text" name='paletNum' v-model="car.paletNum"  class="form-control" id="paletNum" placeholder="Palate Number">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="carImage"   class="col-sm-2 control-label">Car image</label>
+                                  <div class="col-sm-10">
+                                    <input type="file" name='carImage' v-model="car.carImage"  v-on:change='imageSelected' accept="image/*" class="form-control" id="carImage">
                                   </div>
                                 </div>
                               </div>
                               <!-- /.box-body -->
                               <div class="box-footer">
-                                <button type="submit" class="btn btn-default">Cancel</button>
-                                <button type="submit" class="btn btn-info pull-right" @click='createCar()'>Add</button>
+                                <button  class="btn btn-default">Cancel</button>
+                                <button   type="submit" class="btn btn-info pull-right" @click="createCar" >Add</button>
                               </div>
-                         </form>
+                         </div>
                        </div>
                       </div>
                    </div>
@@ -384,7 +365,7 @@
       </footer>
     </template>
 
-   <template id="account_template">
+    <template id="account_template">
      <li class="dropdown user user-menu">
        <!-- Menu Toggle Button -->
        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -411,11 +392,121 @@
      </li>
    </template>
 
+    <template id="login_template">
+     <div class="login-box">
+       <div class="login-logo">
+         <a href="#"><b>Vehicle</b>Rental</a>
+       </div>
+       <!-- /.login-logo -->
+       <div class="login-box-body">
+         <p class="login-box-msg">Sign in to start your session</p>
+
+         <form action="#" >
+           <div class="form-group has-feedback">
+             <input type="email" v-model="credentials.email" class="form-control" placeholder="Email">
+             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+           </div>
+           <div class="form-group has-feedback">
+             <input type="password" v-model="credentials.password" class="form-control" placeholder="Password">
+             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+           </div>
+           <div class="row">
+             <div class="col-xs-8">
+               <div class="checkbox icheck">
+                 <label>
+                   <input type="checkbox"> Remember Me
+                 </label>
+               </div>
+             </div>
+             <!-- /.col -->
+             <div class="col-xs-4">
+               <button href="#"  v-on:click="submit()" class="btn btn-primary btn-block btn-flat">Sign In</button>
+             </div>
+             <!-- /.col -->
+           </div>
+         </form>
+
+         <a href="#">I forgot my password</a><br>
+         <a v-link="{ path: '/signup' }">Register a new membership</a>
+       </div>
+       <!-- /.login-box-body -->
+     </div>
+   </template>
+    <template id="register_template">
+     <div class="register-box">
+       <div class="register-logo">
+         <a href="#"><b>Vehicle</b>Rental</a>
+       </div>
+
+       <div class="register-box-body">
+         <p class="login-box-msg">Register a new membership</p>
+
+         <form action="../../index.html" method="post">
+           <div class="form-group has-feedback">
+             <input type="text" class="form-control" placeholder="Full name">
+             <span class="glyphicon glyphicon-user form-control-feedback"></span>
+           </div>
+           <div class="form-group has-feedback">
+             <input type="email" class="form-control" placeholder="Email">
+             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+           </div>
+           <div class="form-group has-feedback">
+             <input type="password" class="form-control" placeholder="Password">
+             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+           </div>
+           <div class="form-group has-feedback">
+             <input type="password" class="form-control" placeholder="Retype password">
+             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+           </div>
+           <div class="row">
+             <div class="col-xs-8">
+               <div class="checkbox icheck">
+                 <label>
+                   <input type="checkbox"> I agree to the <a href="#">terms</a>
+                 </label>
+               </div>
+             </div>
+             <!-- /.col -->
+             <div class="col-xs-4">
+               <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+             </div>
+             <!-- /.col -->
+           </div>
+         </form>
+
+         <a v-link="{ path: '/login' }">I already have a membership</a>
+       </div>
+       <!-- /.form-box -->
+     </div>
+   </template>
+
+    <template id="home_template">
+      <h1>Welcome  </h1>
+        <div>
+          <a href=""  v-link="{ path: '/login'}">Login </a>
+          <a href=""  v-link="{ path: '/signup'}">Signup </a>
+        </div>
+
+    </template>
+
     <script src="vendor/jQuery-2.2.0.min.js"></script>
     <script src="vendor/js/bootstrap.min.js"></script>
     <script src="vendor/app.min.js"></script>
     <script src="vendor/vue.min.js"></script>
     <script src="vendor/vue-resource.min.js"></script>
+    <script src="vendor/vue-router.min.js"></script>
+
+   <script src="vendor/icheck.min.js"></script>
+   <script>
+     $(function () {
+       $('input').iCheck({
+         checkboxClass: 'icheckbox_square-blue',
+         radioClass: 'iradio_square-blue',
+         increaseArea: '20%' // optional
+       });
+     });
+   </script>
+
     <script src="app.js"> </script>
 
   </div>

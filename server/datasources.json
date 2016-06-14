@@ -6,5 +6,11 @@
     "name": "db",
     "connector": "mongodb",
     "user": ""
+  },
+  "container": {
+    "name": "container",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "/home/icog/Desktop/uploads"
   }
 }

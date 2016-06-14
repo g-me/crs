@@ -10,10 +10,13 @@
       "type": "string"
     },
     "paletNum": {
-      "type": "number",
+      "type": "string",
       "required": true
     },
     "brand": {
+      "type": "string"
+    },
+    "imageUrl": {
       "type": "string"
     }
   },
